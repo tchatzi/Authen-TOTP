@@ -128,7 +128,20 @@ sub valid_secret {
 			$self->{secret} = $self->base32dec($self->{base32secret});
 		}
 		else {
-			$self->{secret} = $self->gen_secret(20);
+			if (defined($self->{algorithm})) {
+				if ($self->{algorithm} eq "SHA512") {
+					$self->{secret} = $self->gen_secret(64);
+				}
+				elsif ($self->{algorithm} eq "SHA256") {
+					$self->{secret} = $self->gen_secret(32);
+				}
+				else {
+					$self->{secret} = $self->gen_secret(20);
+				}
+			}
+			else {
+				$self->{secret} = $self->gen_secret(20);
+			}
 		}
 	}
 	
@@ -138,6 +151,10 @@ sub valid_secret {
 sub secret {
 	my $self = shift;
 	return $self->{secret};
+}
+sub base32secret {
+	my $self = shift;
+	return $self->{base32secret};
 }
 sub algorithm {
 	my $self = shift;
@@ -222,7 +239,7 @@ sub gen_secret {
 	}
 	if (length($secret) > ($length+1)) {
 		$self->{DEBUG} and $self->debug_print("have len ".length($secret)." ($secret) so cutting down");
-		return substr($secret,0,12);
+		return substr($secret,0,$length);
 	}
 	return $secret;
 }
@@ -374,7 +391,7 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
  my $uri = $gen->generate_otp(user => 'user\@example.com', issuer => "example.com");
  
  print qq{$uri\n};
- #store $gen->secret() someplace safe!
+ #store $gen->secret() or $gen->base32secret() someplace safe!
 
  #use Imager::QRCode to plot the secret for the user
  use Imager::QRCode;
@@ -494,8 +511,7 @@ Usage:
  0.0.7
 	Moved git repo to github
 	Added CONTRIBUTING.md file
-	Changed gen_secret() to accept secret length as argument
-	and made 20 the default
+	Changed gen_secret() to accept secret length as argument and made 20 the default
  0.0.6
 	Another pointless adjustment in cpanfile
  0.0.5
@@ -504,7 +520,7 @@ Usage:
  0.0.4
 	Added missing test vectors
  0.0.3
-	Switched to L<Digest::SHA> in order to support SHA256 and SHA512 as well
+	Switched to Digest::SHA in order to support SHA256 and SHA512 as well
  0.0.2
 	Added Digest::HMAC_SHA1 and MIME::Base32 to cpanfiles requires (still
 	getting acquainted with Minilla)
