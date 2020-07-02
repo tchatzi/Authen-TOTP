@@ -77,11 +77,11 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
 - secret
 
-    `random_12byte_string`=> Secret used as seed for the OTP
+    `random_20byte_string`=> Secret used as seed for the OTP
 
 - base32secret
 
-    `base32_encoded_random_12byte_string`=> Alternative way to set secret (base32 encoded)
+    `base32_encoded_random_20byte_string`=> Alternative way to set secret (base32 encoded)
 
 - when
 
@@ -133,6 +133,10 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
 # Revision History
 
+    0.0.7
+           Moved git repo to github
+           Added CONTRIBUTING.md file
+           Changed gen_secret() to accept secret length as argument and made 20 the default
     0.0.6
            Another pointless adjustment in cpanfile
     0.0.5

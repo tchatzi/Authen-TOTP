@@ -1,4 +1,4 @@
-# Authen::TOTP version 0.0.6
+# Authen::TOTP version 0.0.7
 #
 # Copyright (c) 2020 Thanos Chatziathanassiou <tchatzi@arx.net>. All rights reserved.
 # This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@ use vars qw(@ISA @EXPORT @EXPORT_OK);
 
 @EXPORT_OK = qw();
 
-$Authen::TOTP::VERSION='0.0.6';
+$Authen::TOTP::VERSION='0.0.7';
 $Authen::TOTP::ver=$Authen::TOTP::VERSION;
 
 use strict;
@@ -128,7 +128,7 @@ sub valid_secret {
 			$self->{secret} = $self->base32dec($self->{base32secret});
 		}
 		else {
-			$self->{secret} = $self->gen_secret(12);
+			$self->{secret} = $self->gen_secret(20);
 		}
 	}
 	
@@ -214,12 +214,13 @@ sub base32dec {
 
 sub gen_secret {
 	my $self = shift;
-	
+	my $length = shift || 20;
+
 	my $secret;
-	for my $i(0..int(rand(12))+12) {
+	for my $i(0..int(rand($length))+$length) {
 		$secret .= join '',('/', 1..9,'!','@','#','$','%','^','&','*','(',')','-','_','+','=', 'A'..'H','J'..'N','P'..'Z', 'a'..'h','m'..'z')[rand 58];
 	}
-	if (length($secret) > 13) {
+	if (length($secret) > ($length+1)) {
 		$self->{DEBUG} and $self->debug_print("have len ".length($secret)." ($secret) so cutting down");
 		return substr($secret,0,12);
 	}
@@ -350,7 +351,7 @@ __END__
 
 Authen::TOTP - Interface to RFC6238 two factor authentication (2FA)
 
-Version 0.0.6
+Version 0.0.7
 
 =head1 SYNOPSIS
 
@@ -427,7 +428,7 @@ C<SHA1>=> supported values are SHA1, SHA256 and SHA512, although most clients on
 
 =item secret
 
-C<random_12byte_string>=> Secret used as seed for the OTP
+C<random_20byte_string>=> Secret used as seed for the OTP
 
 =item base32secret
 
@@ -490,6 +491,11 @@ Usage:
 
 =head1 Revision History
 
+ 0.0.7
+	Moved git repo to github
+	Added CONTRIBUTING.md file
+	Changed gen_secret() to accept secret length as argument
+	and made 20 the default
  0.0.6
 	Another pointless adjustment in cpanfile
  0.0.5

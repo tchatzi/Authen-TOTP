@@ -1,6 +1,9 @@
 Revision history for Perl extension Authen-TOTP
 
 {{$NEXT}}
+    - Moved git repo to github
+    - Added CONTRIBUTING.md file
+    - Changed gen_secret() to accept secret length as argument and made 20 the default
 
 0.0.6 2020-06-18T15:28:22Z
     - Add (pointless really) requires in cpanfile
