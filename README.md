@@ -2,7 +2,7 @@
 
 Authen::TOTP - Interface to RFC6238 two factor authentication (2FA)
 
-Version 0.0.6
+Version 0.0.7
 
 # SYNOPSIS
 
