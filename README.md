@@ -25,7 +25,7 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
     my $uri = $gen->generate_otp(user => 'user\@example.com', issuer => "example.com");
     
     print qq{$uri\n};
-    #store $gen->secret() someplace safe!
+    #store $gen->secret() or $gen->base32secret() someplace safe!
 
     #use Imager::QRCode to plot the secret for the user
     use Imager::QRCode;
@@ -81,7 +81,7 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
 - base32secret
 
-    `base32_encoded_random_20byte_string`=> Alternative way to set secret (base32 encoded)
+    `base32_encoded_random_12byte_string`=> Alternative way to set secret (base32 encoded)
 
 - when
 
@@ -145,7 +145,7 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
     0.0.4
            Added missing test vectors
     0.0.3
-           Switched to L<Digest::SHA> in order to support SHA256 and SHA512 as well
+           Switched to Digest::SHA in order to support SHA256 and SHA512 as well
     0.0.2
            Added Digest::HMAC_SHA1 and MIME::Base32 to cpanfiles requires (still
            getting acquainted with Minilla)

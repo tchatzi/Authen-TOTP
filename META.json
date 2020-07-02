@@ -55,12 +55,17 @@
    },
    "release_status" : "unstable",
    "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/tchatzi/Authen-TOTP/issues"
+      },
+      "homepage" : "https://github.com/tchatzi/Authen-TOTP",
       "repository" : {
          "type" : "git",
-         "url" : "git://gitlab.network.arxnet/tchatzi/authen-totp.git"
+         "url" : "git://github.com/tchatzi/Authen-TOTP.git",
+         "web" : "https://github.com/tchatzi/Authen-TOTP"
       }
    },
-   "version" : "0.0.6",
+   "version" : "0.0.7",
    "x_serialization_backend" : "JSON::PP version 2.27400",
    "x_static_install" : 1
 }
