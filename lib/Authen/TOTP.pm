@@ -549,7 +549,9 @@ Some stuff definitely isn't as efficient as it can be
 
 =head1 BUGS
 
-Initial release...what do you expect ;)
+Well, it passes RFC test vectors and has so far proven compatible with
+Gitlab's 2FA.
+Let me know if you find anything that's not working
 
 =head1 ACKNOWLEDGEMENTS
 
