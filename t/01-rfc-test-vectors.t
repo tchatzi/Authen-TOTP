@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 19+18;
+use Test::More tests => 37;
 
 BEGIN {
 use_ok( 'Authen::TOTP' );
