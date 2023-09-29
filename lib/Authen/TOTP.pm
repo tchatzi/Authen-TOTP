@@ -199,33 +199,33 @@ sub hmac {
 
 sub base32enc {
 	my $self = shift;
-	
-	if  ((eval {require MIME::Base32::XS;1;} || 0) ne 1) {
+
+	if  ((eval {require Encode::Base2N;1;} || 0) ne 1) {
 		# if module can't load
 		require MIME::Base32;
-		$self->{DEBUG} and $self->debug_print("MIME::Base32::XS unavailable, using MIME::Base32()");
+		$self->{DEBUG} and $self->debug_print("Encode::Base2N unavailable, using MIME::Base32()");
 		return MIME::Base32::encode_base32(shift);
 	}
 	else {
 		#we have XS!
-		$self->{DEBUG} and $self->debug_print("using MIME::Base32::XS()");
-		return MIME::Base32::XS::encode_base32(shift);
+		$self->{DEBUG} and $self->debug_print("using Encode::Base2N()");
+		return Encode::Base2N::encode_base32(shift);
 	}
 }
 
 sub base32dec {
 	my $self = shift;
-	
-	if  ((eval {require MIME::Base32::XS;1;} || 0) ne 1) {
+
+	if  ((eval {require Encode::Base2N;1;} || 0) ne 1) {
 		# if module can't load
 		require MIME::Base32;
-		$self->{DEBUG} and $self->debug_print("MIME::Base32::XS unavailable, using MIME::Base32()");
+		$self->{DEBUG} and $self->debug_print("Encode::Base2N unavailable, using MIME::Base32()");
 		return MIME::Base32::decode_base32(shift);
 	}
 	else {
 		#we have XS!
-		$self->{DEBUG} and $self->debug_print("using MIME::Base32::XS()");
-		return MIME::Base32::XS::decode_base32(shift);
+		$self->{DEBUG} and $self->debug_print("using Encode::Base2N()");
+		return Encode::Base2N::decode_base32(shift);
 	}
 }
 
@@ -508,6 +508,8 @@ Usage:
 
 =head1 Revision History
 
+ 0.0.8
+    Remove usage of MIME::Base32::XS, in favor of the faster Encode::Base2N
  0.0.7
 	Moved git repo to github
 	Added CONTRIBUTING.md file
@@ -533,7 +535,7 @@ one of
 L<Digest::SHA> or L<Digest::SHA::PurePerl>
 
 and
-L<MIME::Base32::XS> or L<MIME::Base32>
+L<Encode::Base2N> or L<MIME::Base32>
 
 L<Imager::QRCode> if you want to generate QRCodes as well
 
