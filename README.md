@@ -2,7 +2,7 @@
 
 Authen::TOTP - Interface to RFC6238 two factor authentication (2FA)
 
-Version 0.0.7
+Version 0.0.8
 
 # SYNOPSIS
 
@@ -133,6 +133,9 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
 # Revision History
 
+    0.0.8
+           Remove usage of MIME::Base32::XS, in favor of the faster Encode::Base2N.
+           Thanks to teodesian for the PR
     0.0.7
            Moved git repo to github
            Added CONTRIBUTING.md file
