@@ -2,6 +2,9 @@ Revision history for Perl extension Authen-TOTP
 
 {{$NEXT}}
 
+0.0.8 2023-09-29
+    - Remove usage of MIME::Base32::XS, in favor of the faster Encode::Base2N
+
 0.0.7 2020-07-02T11:07:50Z
     - Moved git repo to github
     - Added CONTRIBUTING.md file
