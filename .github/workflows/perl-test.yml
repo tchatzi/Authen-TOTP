@@ -1,0 +1,137 @@
+# See https://github.com/FGasper/perl-github-action-tips
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        perl-version:
+          - latest
+          - '5.36'
+          #- '5.34'
+          #- '5.32'
+          #- '5.30'
+          #- '5.28'
+          #- '5.26'
+          #- '5.24'
+          #- '5.22'
+          #- '5.20'
+          #- '5.18'
+          #- '5.16'
+          #- '5.14'
+          #- '5.12'
+          - '5.10'
+    runs-on: ${{ matrix.os }}
+    container:
+      image: perldocker/perl-tester:${{ matrix.perl-version }}
+    steps:
+      - uses: actions/checkout@main
+        with:
+            submodules: recursive
+      - run: perl -V
+      - run: cpanm --notest --installdeps --verbose .
+      - run: cpanm install .
+      - run: prove -wlvmb t
+  mac-win:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest, windows-latest]
+        perl-version:
+          #- '5.36'
+          #- '5.34'
+          #- '5.32'
+          #- '5.30'
+          #- '5.28'
+          #- '5.26'
+          #- '5.24'
+          #- '5.22'
+          #- '5.20'
+          #- '5.18'
+          #- '5.16'
+          #- '5.14'
+          #- '5.12'
+          - '5.10'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@main
+        with:
+            submodules: recursive
+      - run: perl -V
+      #- run: cpanm --notest --installdeps --verbose .
+      - run: cpan install .
+      - run: prove -wlvmb t
+  big-endian:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get the qemu container
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Run tests on s390x/ubuntu
+        run: docker run --rm --interactive s390x/ubuntu bash -c "apt update; apt install -y git cpanminus make; git clone --recurse-submodules $GITHUB_SERVER_URL/$GITHUB_REPOSITORY; cd $( echo $GITHUB_REPOSITORY | cut -d/ -f2 ); cpanm --notest --installdeps --verbose .; cpanm install . ; prove -wlvmb t"
+
+  musl:
+    runs-on: ubuntu-latest
+    container:
+      image: alpine
+    steps:
+      - run: apk add perl-app-cpanminus git make perl-utils
+      - uses: actions/checkout@main
+        with:
+            submodules: recursive
+      - run: perl -V
+      - run: cpanm --notest --installdeps --verbose .
+      - run: cpanm install .
+      - run: prove -wlvmb t
+  cygwin:
+    runs-on: windows-latest
+    steps:
+      - name: Set up Cygwin
+        uses: cygwin/cygwin-install-action@master
+        with:
+          packages: perl_base perl-ExtUtils-MakeMaker make gcc-g++ libcrypt-devel libnsl-devel bash
+
+      - uses: actions/checkout@main
+        with:
+          submodules: recursive
+      - shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
+        run: |
+            perl -V
+            cpan -T App::cpanminus
+            cd $GITHUB_WORKSPACE
+            cpanm --verbose --notest --installdeps --with-configure --with-develop .
+            cpanm install .
+  BSDs:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: freebsd
+            version: '13.0'
+            pkginstall: pkg install -y p5-ExtUtils-MakeMaker
+          - name: openbsd
+            version: '7.1'
+            pkginstall: pkg_add p5-ExtUtils-MakeMaker
+
+    steps:
+      - uses: actions/checkout@main
+        with:
+          submodules: recursive
+      - name: Test on ${{ matrix.os.name }}
+        uses: cross-platform-actions/action@master
+        with:
+          operating_system: ${{ matrix.os.name }}
+          version: ${{ matrix.os.version }}
+          shell: bash
+          run: |
+            sudo ${{ matrix.os.pkginstall }}
+            curl -L https://cpanmin.us | sudo perl - --verbose --notest --installdeps --with-configure --with-develop .
+            cpan install -T .
+            prove -wlvmb t
+
