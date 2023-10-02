@@ -135,6 +135,7 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
     0.0.9
            Added otp method to get user code, and updated tests for this.
+           Thanks to mdeweerd for the PR 
     0.0.8
            Remove usage of MIME::Base32::XS, in favor of the faster Encode::Base2N.
            Thanks to teodesian for the PR
@@ -163,7 +164,7 @@ one of
 [Digest::SHA](https://metacpan.org/pod/Digest%3A%3ASHA) or [Digest::SHA::PurePerl](https://metacpan.org/pod/Digest%3A%3ASHA%3A%3APurePerl)
 
 and
-[MIME::Base32::XS](https://metacpan.org/pod/MIME%3A%3ABase32%3A%3AXS) or [MIME::Base32](https://metacpan.org/pod/MIME%3A%3ABase32)
+[Encode::Base2N](https://metacpan.org/dist/Encode-Base2N/view/lib/Encode/Base2N.pod) or [MIME::Base32](https://metacpan.org/pod/MIME%3A%3ABase32)
 
 [Imager::QRCode](https://metacpan.org/pod/Imager%3A%3AQRCode) if you want to generate QRCodes as well
 

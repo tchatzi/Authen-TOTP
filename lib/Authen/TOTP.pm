@@ -1,4 +1,4 @@
-# Authen::TOTP version 0.0.7
+# Authen::TOTP version 0.1.0
 #
 # Copyright (c) 2020 Thanos Chatziathanassiou <tchatzi@arx.net>. All rights reserved.
 # This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@ use vars qw(@ISA @EXPORT @EXPORT_OK);
 
 @EXPORT_OK = qw();
 
-$Authen::TOTP::VERSION='0.0.7';
+$Authen::TOTP::VERSION='0.1.0';
 $Authen::TOTP::ver=$Authen::TOTP::VERSION;
 
 use strict;
@@ -386,7 +386,7 @@ __END__
 
 Authen::TOTP - Interface to RFC6238 two factor authentication (2FA)
 
-Version 0.0.7
+Version 0.1.0
 
 =head1 SYNOPSIS
 
@@ -534,8 +534,12 @@ Usage:
 
 =head1 Revision History
 
+ 0.1.0
+	Fix documentation inaccuracies (still referenced MIME::Base32::XS)
+ 0.0.9
+	Added otp method to get user code, and updated tests for this.
  0.0.8
-    Remove usage of MIME::Base32::XS, in favor of the faster Encode::Base2N
+	Remove usage of MIME::Base32::XS, in favor of the faster Encode::Base2N
  0.0.7
 	Moved git repo to github
 	Added CONTRIBUTING.md file
