@@ -589,6 +589,8 @@ Let me know if you find anything that's not working
 
 Github user j256 for his example implementation
 
+Github users teodesian and mdeweerd for their PRs
+
 Gryphon Shafer <gryphon@cpan.org> for his L<Auth::GoogleAuth> module
 that does mostly the same job, but I discovered after I had written 
 most of this

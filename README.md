@@ -133,6 +133,8 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
 # Revision History
 
+    0.1.0
+           Fix documentation inaccuracies (still referenced MIME::Base32::XS)
     0.0.9
            Added otp method to get user code, and updated tests for this.
            Thanks to mdeweerd for the PR 
@@ -187,6 +189,8 @@ Let me know if you find anything that's not working
 # ACKNOWLEDGEMENTS
 
 Github user j256 for his example implementation
+
+Github users teodesian and mdeweerd for their PRs
 
 Gryphon Shafer <gryphon@cpan.org> for his [Auth::GoogleAuth](https://metacpan.org/pod/Auth%3A%3AGoogleAuth) module
 that does mostly the same job, but I discovered after I had written 
