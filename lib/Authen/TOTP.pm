@@ -299,18 +299,8 @@ sub validate_otp {
 	foreach $when (@tests) {
 		$self->{DEBUG} and $self->debug_print("using when $when (". ($when - $self->{when}). ")");
 
-		my $T = sprintf("%016x", int($when / $self->{period}) );
-		my $Td = pack('H*', $T);
-		
-		my $hmac = $self->hmac($Td);
-		
-		# take the 4 least significant bits (1 hex char) from the encrypted string as an offset
-		my $offset = hex(substr($hmac, -1));
-		# take the 4 bytes (8 hex chars) at the offset (* 2 for hex), and drop the high bit
-		my $encrypted = hex(substr($hmac, $offset * 2, 8)) & 0x7fffffff;
+		my $code = $self->otp($when);
 
-		my $code = sprintf("%0".$self->{digits}."d", ($encrypted % (10**$self->{digits}) ) );
-		
 		$self->{DEBUG} and $self->debug_print("comparing $code to $otp");
 
 		if ($code eq sprintf("%0".$self->{digits}."d", $otp) ) {
@@ -321,6 +311,34 @@ sub validate_otp {
 
 	return undef;
 }
+
+# Return OTP as digits
+# 
+# @param ?int $when
+#
+# @return string Numeric code as string
+sub otp {
+	my $self = shift;
+	my $when = shift;
+
+	if(!defined($when)) {
+		$when=$self->{when};
+	}
+	my $T = sprintf("%016x", int($when / $self->{period}) );
+	my $Td = pack('H*', $T);
+	
+	my $hmac = $self->hmac($Td);
+	
+	# take the 4 least significant bits (1 hex char) from the encrypted string as an offset
+	my $offset = hex(substr($hmac, -1));
+	# take the 4 bytes (8 hex chars) at the offset (* 2 for hex), and drop the high bit
+	my $encrypted = hex(substr($hmac, $offset * 2, 8)) & 0x7fffffff;
+
+	my $code = sprintf("%0".$self->{digits}."d", ($encrypted % (10**$self->{digits}) ) );
+
+	return $code;
+}
+
 
 sub initialize {
 	my $self = shift;
@@ -416,6 +434,12 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 	#no match
  }
 
+ # Get generated OTP and validate it
+ my $otp=$gen->otp();
+ print "Generated OTP is $otp\n";
+ my $matches=$gen->validate_otp(otp => $otp);
+ print "Self generated OTP is ".($matches?"OK":"NOK")."\n";
+
 =head1 new Authen::TOTP
 
  my $gen = new Authen::TOTP(
@@ -501,6 +525,8 @@ Usage:
 	 tolerance	=>	<try this many iterations before/after when>
 	 otp		=>	<OTP to compare to>
  );
+
+ $gen->otp( <when> ); # Get the TOTP token at <epoch_to_use>
  
 =back
 

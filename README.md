@@ -133,6 +133,8 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
 # Revision History
 
+    0.0.9
+           Added otp method to get user code, and updated tests for this.
     0.0.8
            Remove usage of MIME::Base32::XS, in favor of the faster Encode::Base2N.
            Thanks to teodesian for the PR
