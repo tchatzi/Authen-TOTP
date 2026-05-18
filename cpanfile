@@ -1,4 +1,5 @@
 requires 'perl' => '5.008001';
+requires 'Crypt::PRNG';
 if  ((eval {require Encode::Base2N;1;} || 0) ne 1) {
     requires 'MIME::Base32';
 }

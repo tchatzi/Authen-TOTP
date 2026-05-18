@@ -2,6 +2,9 @@ Revision history for Perl extension Authen-TOTP
 
 {{$NEXT}}
 
+0.1.1 2025-05-18
+    - Replace plain old rand with Crypt::PRNG::random_string_from()
+
 0.1.0 2023-10-02
     - Tidy up the documentation a bit
 

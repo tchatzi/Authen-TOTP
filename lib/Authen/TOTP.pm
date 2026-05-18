@@ -1,4 +1,4 @@
-# Authen::TOTP version 0.1.0
+# Authen::TOTP version 0.1.1
 #
 # Copyright (c) 2020 Thanos Chatziathanassiou <tchatzi@arx.net>. All rights reserved.
 # This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@ use vars qw(@ISA @EXPORT @EXPORT_OK);
 
 @EXPORT_OK = qw();
 
-$Authen::TOTP::VERSION='0.1.0';
+$Authen::TOTP::VERSION='0.1.1';
 $Authen::TOTP::ver=$Authen::TOTP::VERSION;
 
 use strict;
@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 use Carp;
 use Data::Dumper;
+use Crypt::PRNG;
 
 sub debug_print {
 	my $self = shift;
@@ -233,10 +234,8 @@ sub gen_secret {
 	my $self = shift;
 	my $length = shift || 20;
 
-	my $secret;
-	for my $i(0..int(rand($length))+$length) {
-		$secret .= join '',('/', 1..9,'!','@','#','$','%','^','&','*','(',')','-','_','+','=', 'A'..'H','J'..'N','P'..'Z', 'a'..'h','m'..'z')[rand 58];
-	}
+    my $secret = Crypt::PRNG::random_string_from('/123456789!@#$%^&*()-_+=ABCDIEFGJKLMNPQRSTUVWXYZabcdefghmnopqrstuvwxyz', $length);
+
 	if (length($secret) > ($length+1)) {
 		$self->{DEBUG} and $self->debug_print("have len ".length($secret)." ($secret) so cutting down");
 		return substr($secret,0,$length);
@@ -386,7 +385,7 @@ __END__
 
 Authen::TOTP - Interface to RFC6238 two factor authentication (2FA)
 
-Version 0.1.0
+Version 0.1.1
 
 =head1 SYNOPSIS
 
@@ -534,6 +533,9 @@ Usage:
 
 =head1 Revision History
 
+ 0.1.1
+    Replace rand() with Crypt::PRNG::random_string_from() following
+    advisory from rrwo@cpansec.org and CVE-2026-46473
  0.1.0
 	Fix documentation inaccuracies (still referenced MIME::Base32::XS)
  0.0.9
@@ -566,6 +568,9 @@ L<Digest::SHA> or L<Digest::SHA::PurePerl>
 
 and
 L<Encode::Base2N> or L<MIME::Base32>
+
+and
+L<Crypt::PRNG> since version 0.1.1 for safer random secrets
 
 L<Imager::QRCode> if you want to generate QRCodes as well
 

@@ -2,7 +2,7 @@
 
 Authen::TOTP - Interface to RFC6238 two factor authentication (2FA)
 
-Version 0.1.0
+Version 0.1.1
 
 # SYNOPSIS
 
@@ -133,6 +133,9 @@ It currently passes RFC6238 Test Vectors for SHA1, SHA256, SHA512
 
 # Revision History
 
+    0.1.1
+           Replace rand() with Crypt::PRNG::random_string_from() following
+           advisory from rrwo@cpansec.org and CVE-2026-46473
     0.1.0
            Fix documentation inaccuracies (still referenced MIME::Base32::XS)
     0.0.9
@@ -167,6 +170,8 @@ one of
 
 and
 [Encode::Base2N](https://metacpan.org/dist/Encode-Base2N/view/lib/Encode/Base2N.pod) or [MIME::Base32](https://metacpan.org/pod/MIME%3A%3ABase32)
+
+[Crypt::PRNG](https://metacpan.org/pod/Crypt::PRNG) since version 0.1.1 for safer random secrets
 
 [Imager::QRCode](https://metacpan.org/pod/Imager%3A%3AQRCode) if you want to generate QRCodes as well
 
