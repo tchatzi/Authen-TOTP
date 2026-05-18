@@ -4,13 +4,13 @@
       "Thanos Chatziathanassiou <tchatzi@arx.net>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.1.10, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Minilla/v3.1.29, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
-      "version" : "2"
+      "version" : 2
    },
    "name" : "Authen-TOTP",
    "no_index" : {
@@ -42,6 +42,7 @@
       },
       "runtime" : {
          "requires" : {
+            "Crypt::PRNG" : "0",
             "Digest::SHA" : "0",
             "MIME::Base32" : "0",
             "perl" : "5.008001"
@@ -61,11 +62,16 @@
       "homepage" : "https://github.com/tchatzi/Authen-TOTP",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/tchatzi/Authen-TOTP.git",
+         "url" : "https://github.com/tchatzi/Authen-TOTP.git",
          "web" : "https://github.com/tchatzi/Authen-TOTP"
       }
    },
    "version" : "0.1.1",
-   "x_serialization_backend" : "JSON::PP version 2.27400",
+   "x_contributors" : [
+      "George Baugh <george@troglodyne.net>",
+      "MDW <--unset>",
+      "tchatzi <tchatzi2000@yahoo.com>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 4.16",
    "x_static_install" : 1
 }
